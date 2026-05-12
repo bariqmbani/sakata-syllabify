@@ -1,0 +1,86 @@
+import { describe, expect, it } from 'vitest';
+
+import { getLastSyllable, identifyLastSyllable, splitLastSyllable } from './engine.js';
+import { legacyRegressionCases, legacyRegressionGroups } from './legacy-regression.test-data.js';
+import { normalizeWord } from './normalize.js';
+import { VERIFIED_OVERRIDES } from './overrides.js';
+
+describe('identifyLastSyllable', () => {
+  for (const group of legacyRegressionGroups) {
+    describe(group.name, () => {
+      for (const [word, expected] of Object.entries(group.cases)) {
+        it(`splits ${word}`, () => {
+          expect(identifyLastSyllable(word)).toEqual(expected);
+        });
+      }
+    });
+  }
+});
+
+describe('public API', () => {
+  it('keeps the documented legacy API examples', () => {
+    expect(identifyLastSyllable('makan')).toEqual(['ma', 'kan']);
+    expect(identifyLastSyllable('kandidat')).toEqual(['kandi', 'dat']);
+  });
+
+  it('returns a structured result', () => {
+    expect(splitLastSyllable('makan')).toEqual({
+      original: 'makan',
+      normalized: 'makan',
+      prefix: 'ma',
+      last: 'kan',
+      parts: ['ma', 'kan'],
+      ruleId: 'ends-with-vc',
+      source: 'rule',
+    });
+  });
+
+  it('returns only the last syllable', () => {
+    expect(getLastSyllable('kandidat')).toBe('dat');
+  });
+
+  it('handles empty normalized input without throwing', () => {
+    expect(splitLastSyllable('!!!')).toEqual({
+      original: '!!!',
+      normalized: '',
+      prefix: '',
+      last: '',
+      parts: [],
+      ruleId: 'empty-input',
+      source: 'fallback',
+    });
+  });
+});
+
+describe('verified overrides', () => {
+  for (const [word, override] of Object.entries(VERIFIED_OVERRIDES)) {
+    it(`documents and applies the override for ${word}`, () => {
+      expect(override.reason.length).toBeGreaterThan(0);
+      expect(identifyLastSyllable(word)).toEqual(override.parts);
+      expect(splitLastSyllable(word).source).toBe('override');
+    });
+  }
+});
+
+describe('wordExists injection', () => {
+  it('allows callers to override the built-in gameplay stem lookup', () => {
+    expect(identifyLastSyllable('merangkai')).toEqual(['merang', 'kai']);
+    expect(identifyLastSyllable('merangkai', { wordExists: () => false })).toEqual([
+      'merangka',
+      'i',
+    ]);
+  });
+});
+
+describe('invariants', () => {
+  for (const { group, word } of legacyRegressionCases) {
+    it(`keeps non-empty parts and rejoins normalized input for ${group}: ${word}`, () => {
+      const normalized = normalizeWord(word);
+      const parts = identifyLastSyllable(word);
+
+      expect(parts.every(Boolean)).toBe(true);
+      expect(parts.at(-1)?.length ?? 0).toBeGreaterThan(0);
+      expect(parts.join('')).toBe(normalized);
+    });
+  }
+});
