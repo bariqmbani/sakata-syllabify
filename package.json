@@ -1,0 +1,31 @@
+{
+  "name": "sakata-syllable-engine",
+  "version": "0.1.0",
+  "description": "Deterministic Indonesian last-syllable engine for gameplay.",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint .",
+    "format": "prettier . --write",
+    "format:check": "prettier . --check"
+  },
+  "keywords": [
+    "indonesian",
+    "syllable",
+    "word-game"
+  ],
+  "author": "Bariq Mbani <bariq.m70@gmail.com>",
+  "license": "MIT",
+  "engines": {
+    "node": ">=20"
+  },
+  "devDependencies": {
+    "typescript": "^6.0.3"
+  }
+}
