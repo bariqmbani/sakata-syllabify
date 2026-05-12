@@ -21,5 +21,9 @@ export type SyllableRule = {
   id: string;
   description: string;
   match: (word: string) => boolean;
-  apply: (word: string, options?: SyllableEngineOptions) => string[];
+  apply: (
+    word: string,
+    options?: SyllableEngineOptions,
+    identify?: (normalizedWord: string, options?: SyllableEngineOptions) => string[],
+  ) => string[];
 };
