@@ -16,6 +16,7 @@
   ],
   "scripts": {
     "build": "tsc -p tsconfig.build.json",
+    "build:worker": "tsc -p tsconfig.build.json",
     "typecheck": "tsc --noEmit",
     "lint": "eslint .",
     "test": "vitest run",

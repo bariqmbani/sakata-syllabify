@@ -67,6 +67,9 @@ For a missing or empty word, it returns `400`:
 }
 ```
 
+For Cloudflare Worker deployment and quota-saving WAF rules, see
+[docs/cloudflare-quota-protection.md](docs/cloudflare-quota-protection.md).
+
 ## Development
 
 ```bash
