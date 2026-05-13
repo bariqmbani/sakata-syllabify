@@ -1,4 +1,4 @@
-const GAMEPLAY_WORDS = new Set([
+const GAMEPLAY_BASE_WORDS = new Set([
   'damai',
   'gapai',
   'geragai',
@@ -18,6 +18,6 @@ const GAMEPLAY_WORDS = new Set([
   'usai',
 ]);
 
-export function isKnownGameplayWord(word: string): boolean {
-  return GAMEPLAY_WORDS.has(word);
+export function isKnownGameplayBaseWord(word: string): boolean {
+  return GAMEPLAY_BASE_WORDS.has(word);
 }

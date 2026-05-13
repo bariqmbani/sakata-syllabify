@@ -1,8 +1,11 @@
 import type { SyllableEngineOptions, SyllableRule } from '../types.js';
 import { isEndsWithVV, isVowel } from '../utils.js';
-import { isKnownGameplayWord } from '../gameplay-dictionary.js';
+import { isKnownGameplayBaseWord } from '../gameplay-dictionary.js';
 
-function hasPossiblePrefixWithSuffix(word: string, wordExists: (word: string) => boolean): boolean {
+function hasPossiblePrefixWithSuffix(
+  word: string,
+  isKnownBaseWord: (word: string) => boolean,
+): boolean {
   let isWithSuffix = true;
 
   for (let prefixLength = 2; prefixLength <= 3; prefixLength += 1) {
@@ -15,7 +18,7 @@ function hasPossiblePrefixWithSuffix(word: string, wordExists: (word: string) =>
       withoutPrefix = withoutPrefix.replace('n', 't');
     }
 
-    isWithSuffix = !wordExists(withoutPrefix);
+    isWithSuffix = !isKnownBaseWord(withoutPrefix);
   }
 
   return isWithSuffix;
@@ -31,10 +34,10 @@ export const endsWithVVRule: SyllableRule = {
     }
 
     if (word.startsWith('me') || word.startsWith('be') || word.startsWith('te')) {
-      const wordExists = options.wordExists ?? isKnownGameplayWord;
+      const isKnownBaseWord = options.isKnownBaseWord ?? isKnownGameplayBaseWord;
 
       // Gameplay suffix handling preserved from legacy behavior.
-      if (hasPossiblePrefixWithSuffix(word, wordExists)) {
+      if (hasPossiblePrefixWithSuffix(word, isKnownBaseWord)) {
         return [word.substring(0, word.length - 1), word.substring(word.length - 1)];
       }
     }

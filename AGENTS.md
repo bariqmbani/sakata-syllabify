@@ -102,7 +102,7 @@ export type SyllableMode = 'gameplay' | 'orthographic';
 
 export type SyllableEngineOptions = {
   mode?: SyllableMode;
-  wordExists?: (word: string) => boolean;
+  isKnownBaseWord?: (word: string) => boolean;
 };
 
 export type LastSyllableResult = {
@@ -370,10 +370,10 @@ The core engine must be safe for edge/serverless runtimes.
 import { isWordExists } from '..';
 
 // Good — inject via options
-const wordExists = options.wordExists ?? (() => false);
+const isKnownBaseWord = options.isKnownBaseWord ?? (() => false);
 ```
 
-The engine must be able to run with **no** injected `wordExists`.
+The engine must be able to run with **no** injected `isKnownBaseWord`.
 
 ---
 
@@ -524,16 +524,16 @@ Acceptance:
 Goal: make the core engine portable to edge/serverless.
 
 1. Create `options.ts` with `SyllableEngineOptions`
-2. Add optional `wordExists?: (word: string) => boolean`
+2. Add optional `isKnownBaseWord?: (word: string) => boolean`
 3. Pass `options` into handlers that need dictionary lookup
-4. Replace all direct `isWordExists` imports with injected `wordExists`
-5. Add tests for engine without `wordExists` and with injected `wordExists`
+4. Replace all direct `isWordExists` imports with injected `isKnownBaseWord`
+5. Add tests for engine without `isKnownBaseWord` and with injected `isKnownBaseWord`
 
 Acceptance:
 ```txt
 [ ] Core engine does not import isWordExists
-[ ] Engine works without wordExists
-[ ] Engine can optionally use injected wordExists
+[ ] Engine works without isKnownBaseWord
+[ ] Engine can optionally use injected isKnownBaseWord
 [ ] All existing tests pass
 [ ] New injection tests pass
 ```
@@ -696,8 +696,8 @@ Portability
 [ ] No network access in the core engine
 [ ] No filesystem access in the core engine
 [ ] No runtime AI or ML calls
-[ ] Engine runs without injected wordExists
-[ ] Engine can optionally use injected wordExists
+[ ] Engine runs without injected isKnownBaseWord
+[ ] Engine can optionally use injected isKnownBaseWord
 [ ] Edge handler runs without Node.js-only APIs
 
 Code quality

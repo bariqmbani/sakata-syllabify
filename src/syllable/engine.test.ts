@@ -62,11 +62,14 @@ describe('verified overrides', () => {
   }
 });
 
-describe('wordExists injection', () => {
+describe('isKnownBaseWord injection', () => {
   it('allows callers to override the built-in gameplay stem lookup', () => {
     expect(identifyLastSyllable('merangkai')).toEqual(['merang', 'kai']);
-    expect(identifyLastSyllable('merangkai', { wordExists: () => false })).toEqual([
-      'merangka',
+    expect(
+      identifyLastSyllable('memulai', { isKnownBaseWord: (word) => word === 'mulai' }),
+    ).toEqual(['memu', 'lai']);
+    expect(identifyLastSyllable('mewarnai', { isKnownBaseWord: () => false })).toEqual([
+      'mewarna',
       'i',
     ]);
   });

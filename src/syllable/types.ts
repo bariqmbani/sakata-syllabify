@@ -4,7 +4,7 @@ export type SyllableMode = 'gameplay' | 'orthographic';
 
 export type SyllableEngineOptions = {
   mode?: SyllableMode;
-  wordExists?: (word: string) => boolean;
+  isKnownBaseWord?: (word: string) => boolean;
 };
 
 export type LastSyllableResult = {
