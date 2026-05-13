@@ -2,6 +2,8 @@ export type LastSyllableSource = 'override' | 'rule' | 'fallback';
 
 export type SyllableMode = 'gameplay' | 'orthographic';
 
+export type SyllableErrorCode = 'EMPTY_INPUT' | 'INVALID_WORD' | 'UNSUPPORTED_CHARACTER';
+
 export type SyllableEngineOptions = {
   mode?: SyllableMode;
   isKnownBaseWord?: (word: string) => boolean;
