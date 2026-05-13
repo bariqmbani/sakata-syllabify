@@ -14,6 +14,7 @@ const CONSONANT_DIGRAPH_VALUE_BY_TOKEN: Record<string, string> = {
   '8': 'kh',
 };
 
+// Legacy loanword clusters are tokenized for compatibility but are not public consonant digraphs.
 const LEGACY_CLUSTER_TOKEN_BY_VALUE: Record<string, string> = {
   sh: '9',
   dh: '0',

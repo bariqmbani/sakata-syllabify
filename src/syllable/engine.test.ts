@@ -50,6 +50,46 @@ describe('public API', () => {
       source: 'fallback',
     });
   });
+
+  it('normalizes uppercase, whitespace, and punctuation before splitting', () => {
+    expect(splitLastSyllable('  MAKAN!!  ')).toMatchObject({
+      normalized: 'makan',
+      parts: ['ma', 'kan'],
+      last: 'kan',
+    });
+  });
+
+  it('handles short words without empty syllable parts', () => {
+    expect(identifyLastSyllable('a')).toEqual(['a']);
+    expect(identifyLastSyllable('di')).toEqual(['di']);
+    expect(identifyLastSyllable('kan')).toEqual(['kan']);
+  });
+});
+
+describe('result metadata', () => {
+  it('marks verified overrides', () => {
+    expect(splitLastSyllable('bau')).toMatchObject({
+      parts: ['ba', 'u'],
+      ruleId: 'verified-override',
+      source: 'override',
+    });
+  });
+
+  it('marks hyphenated final-segment rules', () => {
+    expect(splitLastSyllable('berkata-kata')).toMatchObject({
+      parts: ['berkata-ka', 'ta'],
+      ruleId: 'hyphenated:ends-with-cv',
+      source: 'rule',
+    });
+  });
+
+  it('marks fallback results', () => {
+    expect(splitLastSyllable('a')).toMatchObject({
+      parts: ['a'],
+      ruleId: 'fallback',
+      source: 'fallback',
+    });
+  });
 });
 
 describe('verified overrides', () => {
@@ -84,6 +124,15 @@ describe('invariants', () => {
       expect(parts.every(Boolean)).toBe(true);
       expect(parts.at(-1)?.length ?? 0).toBeGreaterThan(0);
       expect(parts.join('')).toBe(normalized);
+    });
+  }
+
+  for (const word of ['berkata-kata', 'berangan-angan', 'bercakap-cakap']) {
+    it(`preserves the full normalized hyphenated word for ${word}`, () => {
+      const parts = identifyLastSyllable(word);
+
+      expect(parts.every(Boolean)).toBe(true);
+      expect(parts.join('')).toBe(normalizeWord(word));
     });
   }
 });

@@ -90,6 +90,7 @@ function applyHyphenatedWord(
   hyphenIndex: number,
   options: SyllableEngineOptions,
 ): AppliedParts {
+  // Hyphenated words are split by the final segment while preserving the full normalized invariant.
   const beforeSegment = normalized.substring(0, hyphenIndex + 1);
   const lastSegment = normalized.substring(hyphenIndex + 1);
 

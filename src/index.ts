@@ -11,3 +11,4 @@ export type {
   SyllableMode,
   SyllableRule,
 } from './syllable/types.js';
+export type { SyllableEdgeResponse } from './syllable/edge.js';
