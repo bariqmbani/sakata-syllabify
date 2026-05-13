@@ -24,7 +24,7 @@ const LEGACY_CLUSTER_VALUE_BY_TOKEN: Record<string, string> = {
   '0': 'dh',
 };
 
-export function simplifyDiphthongs(word: string): string {
+export function tokenizeConsonantUnits(word: string): string {
   const withConsonantDigraphs = CONSONANT_DIGRAPHS.reduce(
     (current, digraph) => current.replaceAll(digraph, CONSONANT_DIGRAPH_TOKEN_BY_VALUE[digraph]),
     word,
@@ -36,7 +36,7 @@ export function simplifyDiphthongs(word: string): string {
   );
 }
 
-export function restoreDiphthongs(word: string): string {
+export function restoreConsonantUnits(word: string): string {
   const withConsonantDigraphs = Object.entries(CONSONANT_DIGRAPH_VALUE_BY_TOKEN).reduce(
     (current, [token, digraph]) => current.replaceAll(token, digraph),
     word,
@@ -50,10 +50,6 @@ export function restoreDiphthongs(word: string): string {
 
 export function isVowel(char: string): boolean {
   return VOWELS.includes(char as (typeof VOWELS)[number]);
-}
-
-export function isDiphthong(_char: string): boolean {
-  return false;
 }
 
 function isConsonantDigraphToken(char: string): boolean {

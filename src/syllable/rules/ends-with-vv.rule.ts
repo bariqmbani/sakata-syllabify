@@ -1,6 +1,6 @@
 import type { SyllableEngineOptions, SyllableRule } from '../types.js';
 import { isEndsWithVV, isVowel } from '../utils.js';
-import { isKnownGameplayBaseWord } from '../gameplay-dictionary.js';
+import { isKnownGameplayBaseWord } from '../gameplay-base-words.js';
 
 function hasPossiblePrefixWithSuffix(
   word: string,

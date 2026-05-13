@@ -2,10 +2,9 @@ import { makeParts } from '../result.js';
 import type { SyllableRule } from '../types.js';
 import {
   isConsonant,
-  isDiphthong,
   isEndsWithVC,
-  restoreDiphthongs,
-  simplifyDiphthongs,
+  restoreConsonantUnits,
+  tokenizeConsonantUnits,
 } from '../utils.js';
 
 export const endsWithVCRule: SyllableRule = {
@@ -13,7 +12,7 @@ export const endsWithVCRule: SyllableRule = {
   description: 'Handles words ending with vowel + consonant.',
   match: isEndsWithVC,
   apply: (word) => {
-    const simplified = simplifyDiphthongs(word);
+    const simplified = tokenizeConsonantUnits(word);
     let firstPart = simplified.substring(0, simplified.length - 2);
     let lastPart = simplified.substring(simplified.length - 2);
 
@@ -22,11 +21,7 @@ export const endsWithVCRule: SyllableRule = {
       isConsonant(firstPart.charAt(firstPart.length - 1)) &&
       isConsonant(firstPart.charAt(firstPart.length - 2))
     ) {
-      return [restoreDiphthongs(simplified)];
-    }
-
-    if (firstPart.length === 1 && isDiphthong(firstPart)) {
-      return [restoreDiphthongs(simplified)];
+      return [restoreConsonantUnits(simplified)];
     }
 
     if (
@@ -36,17 +31,14 @@ export const endsWithVCRule: SyllableRule = {
     ) {
       firstPart = simplified.substring(0, simplified.length - 4);
       lastPart = simplified.substring(simplified.length - 4);
-      return makeParts(restoreDiphthongs(firstPart), restoreDiphthongs(lastPart));
+      return makeParts(restoreConsonantUnits(firstPart), restoreConsonantUnits(lastPart));
     }
 
-    if (
-      isConsonant(firstPart.charAt(firstPart.length - 1)) ||
-      isDiphthong(firstPart.charAt(firstPart.length - 1))
-    ) {
+    if (isConsonant(firstPart.charAt(firstPart.length - 1))) {
       firstPart = simplified.substring(0, simplified.length - 3);
       lastPart = simplified.substring(simplified.length - 3);
     }
 
-    return makeParts(restoreDiphthongs(firstPart), restoreDiphthongs(lastPart));
+    return makeParts(restoreConsonantUnits(firstPart), restoreConsonantUnits(lastPart));
   },
 };
