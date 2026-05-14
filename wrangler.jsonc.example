@@ -9,5 +9,8 @@
       "zone_name": "example.com"
     }
   ],
+  "vars": {
+    "CORS_ALLOWED_ORIGIN": "https://your-frontend.example.com"
+  },
   "workers_dev": false
 }
