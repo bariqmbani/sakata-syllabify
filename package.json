@@ -15,6 +15,7 @@
     "dist"
   ],
   "scripts": {
+    "start": "npm run build:worker && wrangler dev --port 8787",
     "build": "tsc -p tsconfig.build.json",
     "build:worker": "tsc -p tsconfig.build.json",
     "deploy:worker": "wrangler deploy",
