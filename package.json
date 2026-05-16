@@ -1,5 +1,5 @@
 {
-  "name": "sakata-syllable-engine",
+  "name": "@bariqmbani/sakata-syllable-engine",
   "version": "0.1.0",
   "description": "Deterministic Indonesian last-syllable engine for gameplay.",
   "type": "module",
@@ -12,11 +12,14 @@
     }
   },
   "files": [
-    "dist"
+    "dist",
+    "README.md"
   ],
+  "sideEffects": false,
   "scripts": {
+    "clean": "node -e \"import('node:fs').then(({ rmSync }) => rmSync('dist', { recursive: true, force: true }))\"",
     "start": "npm run build:worker && wrangler dev --port 8787",
-    "build": "tsc -p tsconfig.build.json",
+    "build": "npm run clean && tsc -p tsconfig.build.json",
     "build:worker": "tsc -p tsconfig.build.json",
     "deploy:worker": "wrangler deploy",
     "typecheck": "tsc --noEmit",

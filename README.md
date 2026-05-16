@@ -4,6 +4,16 @@ Deterministic Indonesian last-syllable engine for word-chain gameplay.
 
 The engine is designed for consistent gameplay behavior, not academic syllabification. It has no runtime database, network, AI, ML, or Node-only dependency in the core engine.
 
+## Package
+
+Install it from a Node project:
+
+```bash
+npm install sakata-syllable-engine
+```
+
+This package is ESM-only and exports its TypeScript declarations from the root entrypoint.
+
 ## Usage
 
 ```ts
