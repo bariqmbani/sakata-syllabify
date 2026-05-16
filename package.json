@@ -1,5 +1,5 @@
 {
-  "name": "sakata-syllable-engine",
+  "name": "@bariqmbani/sakata-syllable-engine",
   "version": "0.1.0",
   "description": "Deterministic Indonesian last-syllable engine for gameplay.",
   "type": "module",
