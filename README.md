@@ -9,7 +9,7 @@ The engine is designed for consistent gameplay behavior, not academic syllabific
 Install it from a Node project:
 
 ```bash
-npm install sakata-syllable-engine
+npm install @bariqmbani/sakata-syllable-engine
 ```
 
 This package is ESM-only and exports its TypeScript declarations from the root entrypoint.
